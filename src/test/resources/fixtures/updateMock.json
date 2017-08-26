@@ -1,0 +1,19 @@
+{
+  "path": "/test",
+  "method": "GET",
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "string": "value",
+        "int": 10,
+        "float": 30.5,
+        "boolean": true,
+        "array": [1,2,3],
+        "object": {
+          "key": "value"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+buildscript {
+    ext {
+        springBootVersion = '1.5.6.RELEASE'
+        lombokVersion = '1.16.18'
+        guavaVersion = '23.0'
+        modelMapperVersion = '1.1.0'
+        mockitoVersion = '2.8.47'
+        embedMongoVersion = '2.0.0'
+    }
+
+    repositories {
+        jcenter()
+        mavenCentral()
+        mavenLocal()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+
+group 'io.github.mockenize'
+version '2.0.0-SNAPSHOT'
+
+jar {
+    baseName = 'mockenize-api'
+    version =  '0.0.0'
+}
+
+repositories {
+    jcenter()
+    mavenCentral()
+    mavenLocal()
+}
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+dependencies {
+    compile "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
+    compile "org.springframework.boot:spring-boot-starter-data-mongodb:${springBootVersion}"
+    compile "org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}"
+
+    compile "com.google.guava:guava:${guavaVersion}"
+    compile "org.modelmapper:modelmapper:${modelMapperVersion}"
+    compile "org.projectlombok:lombok:${lombokVersion}"
+    compile "de.flapdoodle.embed:de.flapdoodle.embed.mongo:${embedMongoVersion}"
+
+    testCompile "org.mockito:mockito-core:${mockitoVersion}"
+    testCompile "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
+}

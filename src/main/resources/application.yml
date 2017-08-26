@@ -1,0 +1,11 @@
+application:
+  title: Mockenize
+  version: 2.0.0-SNAPSHOT
+
+spring:
+  data:
+    mongodb:
+      host: localhost
+      database: mockenize
+
+management.security.enabled: false
