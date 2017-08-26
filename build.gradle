@@ -64,6 +64,5 @@ sonarqube {
         property "sonar.host.url", "https://sonarcloud.io"
         property "sonar.projectName", "Mockenize"
         property "sonar.projectKey", "io.github.mockenize:mockenize-api"
-        property "sonar.login", 
     }
 }
