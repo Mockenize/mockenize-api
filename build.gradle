@@ -6,6 +6,7 @@ buildscript {
         modelMapperVersion = '1.1.0'
         mockitoVersion = '2.8.47'
         embedMongoVersion = '2.0.0'
+        sonarqubeVersion = '2.5'
     }
 
     repositories {
@@ -19,11 +20,13 @@ buildscript {
 
     dependencies {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:${sonarqubeVersion}"
     }
 }
 
 apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
+apply plugin: 'org.sonarqube'
 
 group 'io.github.mockenize'
 version '2.0.0-SNAPSHOT'
@@ -54,4 +57,13 @@ dependencies {
 
     testCompile "org.mockito:mockito-core:${mockitoVersion}"
     testCompile "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
+}
+
+sonarqube {
+    properties {
+        property "sonar.host.url", "https://sonarcloud.io"
+        property "sonar.projectName", "Mockenize"
+        property "sonar.projectKey", "io.github.mockenize:mockenize-api"
+        property "sonar.login", 
+    }
 }
