@@ -1,5 +1,6 @@
 package io.github.mockenize.rest.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.github.mockenize.core.domain.MockMethod;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,17 +13,18 @@ import java.util.UUID;
 
 @Getter
 @Setter
-public class MockDto {
+@JsonIgnoreProperties(value = {"id"}, allowGetters = true)
+public class MockDetails {
 
     @Id
     private UUID id;
+
+    @NotNull
+    private UUID serverId;
 
     @NotEmpty
     private String path;
 
     @NotNull
-    private MockMethod method;
-
-    @NotNull
-    private List<MockResponseDto> responses;
+    private List<MockResponseDetails> responses;
 }

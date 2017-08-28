@@ -45,10 +45,11 @@ public class EmbeddedMongoDbConfig {
     public void setup() throws IOException {
         log.info("Starting mongodb on {}:{}", BIND_IP, PORT);
 
-        IMongodConfig mongodConfig = null;
         MongodConfigBuilder builder = new MongodConfigBuilder()
                 .version(Version.Main.PRODUCTION)
                 .net(new Net(BIND_IP, PORT, Network.localhostIsIPv6()));
+
+        IMongodConfig mongodConfig = null;
 
         if (environment.acceptsProfiles("test")) {
             mongodConfig = builder.build();

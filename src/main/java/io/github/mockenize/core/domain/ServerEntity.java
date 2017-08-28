@@ -4,30 +4,34 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Reference;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Getter
 @Setter
 @Document
-public class MockEntity {
+public class ServerEntity {
 
     @Id
     @NotNull
     private UUID id;
 
+    @NotEmpty
+    private String name;
+
     @NotNull
-    private UUID serverId;
+    @Min(0)
+    @Max(65535)
+    private Integer port;
+
+    @Min(0)
+    @Max(65535)
+    private Integer securePort;
 
     @NotEmpty
-    private String path;
-
-    @NotNull
-    private List<MockResponse> responses;
-
+    private ServerStatus status = ServerStatus.STOPED;
 }

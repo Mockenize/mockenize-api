@@ -4,32 +4,33 @@ import io.github.mockenize.core.domain.MockEntity;
 import io.github.mockenize.core.exception.MockNotFoundException;
 import io.github.mockenize.core.repository.MockRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.StreamSupport;
-
-import static java.util.stream.Collectors.toList;
 
 @Service
 public class MockService {
 
     private MockRepository mockRepository;
 
+    private ServerService serverService;
+
     @Autowired
-    public MockService(MockRepository mockRepository) {
+    public MockService(MockRepository mockRepository, ServerService serverService) {
         this.mockRepository = mockRepository;
+        this.serverService = serverService;
     }
 
-    public List<MockEntity> searchMocks() {
-        Iterable<MockEntity> mocksIterable = mockRepository.findAll();
-        return StreamSupport.stream(mocksIterable.spliterator(), true).collect(toList());
+    public List<MockEntity> searchMocks(UUID serverId) {
+        return mockRepository.findByServerId(serverId);
     }
 
     public MockEntity createMock(MockEntity mockEntity) {
-        return mockRepository.save(mockEntity);
+        mockEntity.setId(UUID.randomUUID());
+        MockEntity createdMock = mockRepository.save(mockEntity);
+        serverService.reloadServer(mockEntity.getServerId());
+        return createdMock;
     }
 
     public MockEntity retrieveMock(UUID id) {
@@ -43,14 +44,24 @@ public class MockService {
     }
 
     public MockEntity updateMock(MockEntity mockEntity) {
-        return mockRepository.save(mockEntity);
+        MockEntity updatedMock = mockRepository.save(mockEntity);
+        serverService.reloadServer(mockEntity.getServerId());
+        return updatedMock;
     }
 
     public void deleteMock(UUID id) {
-        mockRepository.delete(id);
+        MockEntity mockEntity = mockRepository.findOne(id);
+
+        if (mockEntity == null) {
+            return;
+        }
+
+        mockRepository.delete(mockEntity);
+        serverService.reloadServer(mockEntity.getServerId());
     }
 
-    public void deleteMocks() {
-        mockRepository.deleteAll();
+    public void deleteMocks(UUID serverId) {
+        mockRepository.deleteAllByServerId(serverId);
+        serverService.reloadServer(serverId);
     }
 }
