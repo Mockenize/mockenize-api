@@ -43,7 +43,6 @@ public class HttpHandlerFactory {
         String path = mockEntity.getPath();
         return mockEntity.getResponses()
                 .parallelStream()
-                .map(r -> new MockHttpHandler(predicateFactory.create(path, r), responseFactory.create(r)))
-                .parallel();
+                .map(r -> new MockHttpHandler(predicateFactory.create(path, r), responseFactory.create(r)));
     }
 }

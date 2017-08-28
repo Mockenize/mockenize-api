@@ -27,7 +27,6 @@ public class HttpServerFactory {
         return Undertow.builder()
                 .addHttpListener(serverEntity.getPort(), HOSTNAME)
                 .setHandler(handler)
-                .addListener(new Undertow.ListenerBuilder())
                 .build();
     }
 }
